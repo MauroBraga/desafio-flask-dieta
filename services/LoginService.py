@@ -1,6 +1,6 @@
 import bcrypt
 from flask import jsonify
-from flask_login import login_user
+from flask_login import login_user, logout_user
 
 from models.user import User
 
@@ -20,6 +20,6 @@ class LoginService:
 
         return jsonify({'message':'Username and Password required'}), 400
 
-    def logou(self):
-        login_user()
+    def logout(self):
+        logout_user()
         return jsonify({'message':'Logout Successful'}), 200
