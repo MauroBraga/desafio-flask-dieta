@@ -4,6 +4,7 @@ from flask_login import LoginManager, login_user, current_user, login_required, 
 from config.database import db
 from models.user import User
 from services.LoginService import LoginService
+from services.RefeicaoService import RefeicaoService
 from services.UserService import UserService
 
 app = Flask(__name__)
@@ -18,6 +19,7 @@ loginManager.init_app(app)
 
 
 userService = UserService()
+refeicaoService = RefeicaoService()
 loginService = LoginService()
 
 #Rotas de Autenticação
@@ -47,10 +49,49 @@ def create():
     data = request.get_json()
     return userService.create_user(data);
 
+@app.route('/user/<int:user_id>', methods=['GET'])
+@login_required
 def findById(user_id):
     return userService.findById(user_id)
 
+@app.route('/user', methods=['GET'])
+@login_required
+def findAll():
+    return userService.findAll()
+
+@app.route('/user/<int:user_id>', methods=['PUT'])
+@login_required
+def update(user_id):
+    data = request.get_json()
+    return userService.update(user_id, data)
+
+@app.route('/user/<int:user_id>', methods=['DELETE'])
+@login_required
+def delete(user_id):
+    return userService.delete(user_id)
+
 #Rotas de Refeição
+@app.route('/refeicao', methods=['POST'])
+@login_required
+def createRefeicao():
+    data = request.get_json()
+    return refeicaoService.create(data);
+
+@app.route('/refeicao', methods=['GET'])
+@login_required
+def findAllRefeicao():
+    return refeicaoService.findAll()
+
+@app.route('/refeicao/<int:id_refeicao>', methods=['PUT'])
+@login_required
+def updateRefeicao(id_refeicao):
+    data = request.get_json()
+    return refeicaoService.update(id_refeicao, data)
+
+@app.route('/refeicao/<int:id_refeicao>', methods=['DELETE'])
+@login_required
+def deleteRefeicao(id_refeicao):
+    return refeicaoService.delete(id_refeicao)
 
 if __name__ == '__main__':
     app.run(debug=True)

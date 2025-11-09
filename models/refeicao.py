@@ -1,9 +1,9 @@
 from config.database import db
-from flask_login import UserMixin
 
-class Refeicao(db.model):
+class Refeicao(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(100), nullable=False)
-    calorias = db.Column(db.Integer, nullable=False)
-    data_hora = db.Column(db.DateTime, nullable=False)
+    descricao = db.Column(db.String(500), nullable=False)
+    dt_criacao = db.Column(db.DateTime, nullable=False)
+    tipo = db.Column(db.String(1), nullable=False)
     usuario_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
